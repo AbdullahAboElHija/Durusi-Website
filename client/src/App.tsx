@@ -10,6 +10,7 @@ import Browse from "@/pages/Browse";
 import LessonDetail from "@/pages/LessonDetail";
 import AddLesson from "@/pages/AddLesson";
 import About from "@/pages/About";
+import Admin from "@/pages/Admin";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -20,6 +21,7 @@ function Router() {
       <Route path="/lesson/:id" component={LessonDetail} />
       <Route path="/add" component={AddLesson} />
       <Route path="/about" component={About} />
+      <Route path="/admin" component={Admin} />
       <Route component={NotFound} />
     </Switch>
   );

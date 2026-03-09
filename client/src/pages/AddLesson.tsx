@@ -294,7 +294,7 @@ export default function AddLesson() {
             </div>
             <h2 className="text-3xl font-black text-primary" data-testid="text-success">تم إرسال الدرس بنجاح!</h2>
             <p className="text-lg text-muted-foreground max-w-md mx-auto">
-              جزاك الله خيراً على مساهمتك في نشر العلم. تمت إضافة الدرس على المنصة.
+              جزاك الله خيراً على مساهمتك في نشر العلم. سيتم مراجعة الدرس والموافقة عليه قبل نشره على المنصة.
             </p>
             <div className="pt-6 flex justify-center gap-4">
               <Link href="/">

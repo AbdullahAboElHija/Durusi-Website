@@ -14,6 +14,7 @@ const lessonSchema = new mongoose.Schema({
   address: { type: String, default: null },
   platform: { type: String, default: null },
   link: { type: String, default: null },
+  status: { type: String, required: true, enum: ["pending", "approved", "rejected"], default: "pending" },
 }, { timestamps: true });
 
 export const LessonModel = mongoose.model("Lesson", lessonSchema);

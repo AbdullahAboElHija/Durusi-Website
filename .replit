@@ -47,3 +47,4 @@ mockupState = "FULLSTACK"
 
 [userenv.shared]
 MONGODB_URI = "mongodb+srv://hija368_db_user:d6BqDjkEufT9S6yr@cluster0.ulfk3bw.mongodb.net/durusi?appName=Cluster0"
+ADMIN_PASSWORD = "durusi2024admin"

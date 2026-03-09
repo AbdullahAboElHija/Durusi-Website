@@ -33,6 +33,7 @@ export interface Lesson {
   address: string | null;
   platform: string | null;
   link: string | null;
+  status: "pending" | "approved" | "rejected";
   createdAt: string;
   updatedAt: string;
 }
