@@ -1,38 +1,88 @@
-import { type User, type InsertUser } from "@shared/schema";
-import { randomUUID } from "crypto";
-
-// modify the interface with any CRUD methods
-// you might need
+import { type Lesson, type InsertLesson, lessons } from "@shared/schema";
+import { db } from "./db";
+import { eq, desc, and, ilike, or } from "drizzle-orm";
 
 export interface IStorage {
-  getUser(id: string): Promise<User | undefined>;
-  getUserByUsername(username: string): Promise<User | undefined>;
-  createUser(user: InsertUser): Promise<User>;
+  getLessons(filters?: {
+    type?: string;
+    city?: string;
+    topic?: string;
+    search?: string;
+  }): Promise<Lesson[]>;
+  getLesson(id: number): Promise<Lesson | undefined>;
+  createLesson(lesson: InsertLesson): Promise<Lesson>;
+  getStats(): Promise<{ lessons: number; cities: number; online: number }>;
 }
 
-export class MemStorage implements IStorage {
-  private users: Map<string, User>;
+export class DatabaseStorage implements IStorage {
+  async getLessons(filters?: {
+    type?: string;
+    city?: string;
+    topic?: string;
+    search?: string;
+  }): Promise<Lesson[]> {
+    const conditions = [];
 
-  constructor() {
-    this.users = new Map();
+    if (filters?.type && filters.type !== "all") {
+      conditions.push(eq(lessons.type, filters.type));
+    }
+
+    if (filters?.city && filters.city !== "all") {
+      conditions.push(eq(lessons.city, filters.city));
+    }
+
+    if (filters?.topic && filters.topic !== "all") {
+      conditions.push(eq(lessons.topic, filters.topic));
+    }
+
+    if (filters?.search) {
+      conditions.push(
+        or(
+          ilike(lessons.title, `%${filters.search}%`),
+          ilike(lessons.sheikh, `%${filters.search}%`)
+        )
+      );
+    }
+
+    if (conditions.length > 0) {
+      return await db
+        .select()
+        .from(lessons)
+        .where(and(...conditions))
+        .orderBy(desc(lessons.createdAt));
+    }
+
+    return await db
+      .select()
+      .from(lessons)
+      .orderBy(desc(lessons.createdAt));
   }
 
-  async getUser(id: string): Promise<User | undefined> {
-    return this.users.get(id);
+  async getLesson(id: number): Promise<Lesson | undefined> {
+    const [lesson] = await db
+      .select()
+      .from(lessons)
+      .where(eq(lessons.id, id));
+    return lesson;
   }
 
-  async getUserByUsername(username: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(
-      (user) => user.username === username,
+  async createLesson(lesson: InsertLesson): Promise<Lesson> {
+    const [created] = await db.insert(lessons).values(lesson).returning();
+    return created;
+  }
+
+  async getStats(): Promise<{ lessons: number; cities: number; online: number }> {
+    const allLessons = await db.select().from(lessons);
+    const cities = new Set(
+      allLessons.filter((l) => l.city).map((l) => l.city)
     );
-  }
-
-  async createUser(insertUser: InsertUser): Promise<User> {
-    const id = randomUUID();
-    const user: User = { ...insertUser, id };
-    this.users.set(id, user);
-    return user;
+    const online = allLessons.filter((l) => l.type === "online").length;
+    return {
+      lessons: allLessons.length,
+      cities: cities.size,
+      online,
+    };
   }
 }
 
-export const storage = new MemStorage();
+export const storage = new DatabaseStorage();

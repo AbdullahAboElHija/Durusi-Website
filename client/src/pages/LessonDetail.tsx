@@ -1,4 +1,4 @@
-import { MOCK_LESSONS } from "@/data/mockData";
+import type { Lesson } from "@shared/schema";
 import { useParams, Link } from "wouter";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -7,17 +7,29 @@ import { Separator } from "@/components/ui/separator";
 import { 
   MapPin, MonitorPlay, Calendar, Clock, 
   User, BookOpen, Share2, MessageCircle, 
-  ArrowRight, ExternalLink, BellPlus
+  ArrowRight, ExternalLink, BellPlus, Loader2
 } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
 import NotFound from "./not-found";
 
 export default function LessonDetail() {
   const params = useParams();
   const id = params.id;
   
-  const lesson = MOCK_LESSONS.find(l => l.id === id);
+  const { data: lesson, isLoading, isError } = useQuery<Lesson>({
+    queryKey: [`/api/lessons/${id}`],
+    enabled: !!id,
+  });
 
-  if (!lesson) {
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center py-32">
+        <Loader2 className="w-10 h-10 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  if (isError || !lesson) {
     return <NotFound />;
   }
 
@@ -29,7 +41,6 @@ export default function LessonDetail() {
         url: window.location.href,
       }).catch(console.error);
     } else {
-      // Fallback copy to clipboard
       navigator.clipboard.writeText(window.location.href);
       alert("تم نسخ الرابط!");
     }
@@ -38,14 +49,13 @@ export default function LessonDetail() {
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
       <Link href="/browse">
-        <Button variant="ghost" className="mb-6 text-muted-foreground hover:text-foreground">
+        <Button variant="ghost" className="mb-6 text-muted-foreground hover:text-foreground" data-testid="link-back-browse">
           <ArrowRight className="w-4 h-4 ml-2" />
           عودة للدروس
         </Button>
       </Link>
 
       <div className="bg-card border-border/60 rounded-3xl shadow-sm overflow-hidden animate-in fade-in slide-in-from-bottom-4">
-        {/* Header Header */}
         <div className="bg-primary/5 p-6 md:p-10 border-b border-border/40 relative">
           <div className="absolute left-0 top-0 w-32 h-32 bg-primary/5 rounded-br-full -z-10"></div>
           
@@ -66,11 +76,11 @@ export default function LessonDetail() {
             )}
           </div>
 
-          <h1 className="text-3xl md:text-5xl font-black text-primary mb-4 leading-tight">
+          <h1 className="text-3xl md:text-5xl font-black text-primary mb-4 leading-tight" data-testid="text-lesson-title">
             {lesson.title}
           </h1>
           
-          <div className="flex items-center gap-3 text-lg md:text-xl font-bold text-foreground">
+          <div className="flex items-center gap-3 text-lg md:text-xl font-bold text-foreground" data-testid="text-lesson-sheikh">
             <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
               <User className="w-5 h-5" />
             </div>
@@ -78,18 +88,15 @@ export default function LessonDetail() {
           </div>
         </div>
 
-        {/* Content Body */}
         <div className="p-6 md:p-10 grid grid-cols-1 md:grid-cols-3 gap-8">
-          
-          {/* Main Info */}
           <div className="md:col-span-2 space-y-8">
             <section>
               <h2 className="text-xl font-bold mb-4 flex items-center gap-2 text-foreground">
                 <BookOpen className="w-5 h-5 text-secondary" />
                 عن الدرس
               </h2>
-              <p className="text-muted-foreground leading-relaxed text-lg">
-                {lesson.description}
+              <p className="text-muted-foreground leading-relaxed text-lg" data-testid="text-lesson-description">
+                {lesson.description || "لا يوجد وصف متاح لهذا الدرس."}
               </p>
             </section>
 
@@ -103,11 +110,11 @@ export default function LessonDetail() {
               <div className="flex flex-wrap gap-4">
                 <div className="bg-muted/50 border rounded-xl p-4 flex-1 min-w-[200px]">
                   <p className="text-sm text-muted-foreground mb-1">اليوم</p>
-                  <p className="font-bold text-lg">{lesson.day}</p>
+                  <p className="font-bold text-lg" data-testid="text-lesson-day">{lesson.day}</p>
                 </div>
                 <div className="bg-muted/50 border rounded-xl p-4 flex-1 min-w-[200px]">
                   <p className="text-sm text-muted-foreground mb-1">الساعة</p>
-                  <p className="font-bold text-lg flex items-center gap-2">
+                  <p className="font-bold text-lg flex items-center gap-2" data-testid="text-lesson-time">
                     <Clock className="w-4 h-4 text-primary" />
                     {lesson.time}
                   </p>
@@ -116,7 +123,6 @@ export default function LessonDetail() {
             </section>
           </div>
 
-          {/* Sidebar Info */}
           <div className="space-y-6">
             <Card className="border-border/60 bg-muted/20 shadow-none">
               <CardContent className="p-5 space-y-4">
@@ -127,11 +133,10 @@ export default function LessonDetail() {
                     <div className="flex items-start gap-3">
                       <MapPin className="w-5 h-5 text-primary mt-0.5 shrink-0" />
                       <div>
-                        <p className="font-bold">{lesson.mosqueName}</p>
+                        <p className="font-bold" data-testid="text-lesson-mosque">{lesson.mosqueName}</p>
                         <p className="text-sm text-muted-foreground">{lesson.address}، {lesson.city}</p>
                       </div>
                     </div>
-                    {/* Placeholder for map */}
                     <div className="w-full h-32 bg-muted rounded-lg flex items-center justify-center border border-border mt-4">
                       <p className="text-xs text-muted-foreground flex flex-col items-center gap-1">
                         <MapPin className="w-6 h-6 opacity-50" />
@@ -144,50 +149,44 @@ export default function LessonDetail() {
                     <div className="flex items-start gap-3">
                       <MonitorPlay className="w-5 h-5 text-primary mt-0.5 shrink-0" />
                       <div>
-                        <p className="font-bold">عبر {lesson.platform}</p>
+                        <p className="font-bold" data-testid="text-lesson-platform">عبر {lesson.platform}</p>
                         <p className="text-sm text-muted-foreground">بث مباشر أو لقاء تفاعلي</p>
                       </div>
                     </div>
-                    <a 
-                      href={lesson.link} 
-                      target="_blank" 
-                      rel="noreferrer"
-                      className="block w-full"
-                    >
-                      <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold">
-                        الذهاب للدرس
-                        <ExternalLink className="w-4 h-4 mr-2" />
-                      </Button>
-                    </a>
+                    {lesson.link && (
+                      <a href={lesson.link} target="_blank" rel="noreferrer" className="block w-full">
+                        <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold" data-testid="button-go-lesson">
+                          الذهاب للدرس
+                          <ExternalLink className="w-4 h-4 mr-2" />
+                        </Button>
+                      </a>
+                    )}
                   </div>
                 )}
               </CardContent>
             </Card>
 
-            {/* Action Buttons */}
             <div className="space-y-3">
-              <Button variant="outline" className="w-full font-semibold border-primary/20 hover:bg-primary/5 text-primary">
+              <Button variant="outline" className="w-full font-semibold border-primary/20 hover:bg-primary/5 text-primary" data-testid="button-add-reminder">
                 <BellPlus className="w-4 h-4 ml-2" />
                 أضف للمفكرة
               </Button>
               
-              <Button onClick={handleShare} variant="outline" className="w-full font-semibold border-border bg-card">
+              <Button onClick={handleShare} variant="outline" className="w-full font-semibold border-border bg-card" data-testid="button-share">
                 <Share2 className="w-4 h-4 ml-2" />
                 مشاركة الدرس
               </Button>
               
               {lesson.whatsappContact && (
                 <a href={`https://wa.me/${lesson.whatsappContact}`} target="_blank" rel="noreferrer" className="block w-full">
-                  <Button className="w-full font-semibold bg-[#25D366] hover:bg-[#20bd5a] text-white border-none">
+                  <Button className="w-full font-semibold bg-[#25D366] hover:bg-[#20bd5a] text-white border-none" data-testid="button-whatsapp">
                     <MessageCircle className="w-4 h-4 ml-2" />
                     تواصل للاستفسار
                   </Button>
                 </a>
               )}
             </div>
-
           </div>
-
         </div>
       </div>
     </div>

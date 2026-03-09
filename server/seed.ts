@@ -1,47 +1,8 @@
-export const CITIES = [
-  "الناصرة", "أم الفحم", "باقة الغربية", "الطيبة", "كفر قاسم", "كفر كنا", 
-  "سخنين", "عرابة", "دير حنا", "شفاعمرو", "الطيرة", "قلنسوة", "يافا (تل أبيب)", 
-  "حيفا", "عكا", "اللد", "الرملة", "المثلث (منطقة)", "تل السبع", "رهط", 
-  "لقية", "حورة", "عرعرة النقب", "كفر مندا", "مجد الكروم", "ترشيحا", 
-  "جديدة-مكر", "نحف", "البعنة", "دالية الكرمل", "عسفيا", "المغار", "جت", 
-  "زيمر", "كفر قرع", "عرعرة", "بسمة", "معاوية", "برطعة", "عين السهلة", 
-  "الفريديس", "إكسال", "عين ماهل", "يافة الناصرة", "الرينة", "المشهد", 
-  "كفر مصر", "دبورية", "الشبلي - أم الغنم", "بئر المكسور", "طمرة", 
-  "كابول", "شعب", "دير الأسد", "مزرعة", "أبو سنان", "كفر ياسيف", "يركا", 
-  "جولس", "يانوح-جت", "كسرى-سميع", "البقيعة", "حرفيش", "فسوطة", "بيت جن", 
-  "الرامة", "عيلبون", "طرعان", "الزرازير", "كعبية-طباش-حجاجرة", "عبلين", 
-  "جسر الزرقاء", "جلجولية", "كفر برا", "زلفة", "سالم", "العزير", "رمانة", "عرب الهيب"
-];
+import { db } from "./db";
+import { lessons } from "@shared/schema";
 
-export const TOPICS = ["فقه", "تفسير", "سيرة", "حديث", "تزكية", "تجويد"];
-export const PLATFORMS = ["Zoom", "YouTube Live", "واتساب", "تيليغرام", "غيره"];
-
-export type LessonType = 'mosque' | 'online';
-
-export interface Lesson {
-  id: string;
-  type: LessonType;
-  title: string;
-  sheikh: string;
-  topic: string;
-  day: string;
-  time: string;
-  description: string;
-  whatsappContact?: string;
-  
-  // Mosque specific
-  mosqueName?: string;
-  city?: string;
-  address?: string;
-  
-  // Online specific
-  platform?: string;
-  link?: string;
-}
-
-export const MOCK_LESSONS: Lesson[] = [
+const SEED_LESSONS = [
   {
-    id: "1",
     type: "mosque",
     title: "شرح كتاب رياض الصالحين",
     sheikh: "الشيخ رائد صلاح",
@@ -52,10 +13,9 @@ export const MOCK_LESSONS: Lesson[] = [
     mosqueName: "مسجد السلام",
     city: "الناصرة",
     address: "حي الكروم، الناصرة",
-    whatsappContact: "972500000000"
+    whatsappContact: "972500000000",
   },
   {
-    id: "2",
     type: "mosque",
     title: "تفسير سورة البقرة",
     sheikh: "د. مشهور فواز",
@@ -66,10 +26,9 @@ export const MOCK_LESSONS: Lesson[] = [
     mosqueName: "مسجد أبو عبيدة",
     city: "أم الفحم",
     address: "حي المحاميد",
-    whatsappContact: "972500000001"
+    whatsappContact: "972500000001",
   },
   {
-    id: "3",
     type: "mosque",
     title: "فقه المعاملات المالية",
     sheikh: "الشيخ كمال خطيب",
@@ -80,10 +39,9 @@ export const MOCK_LESSONS: Lesson[] = [
     mosqueName: "مسجد النور",
     city: "سخنين",
     address: "الشارع الرئيسي",
-    whatsappContact: "972500000002"
+    whatsappContact: "972500000002",
   },
   {
-    id: "4",
     type: "mosque",
     title: "السيرة النبوية - العهد المكي",
     sheikh: "الشيخ علي أبو شيخة",
@@ -94,10 +52,9 @@ export const MOCK_LESSONS: Lesson[] = [
     mosqueName: "مسجد خالد بن الوليد",
     city: "الطيبة",
     address: "المنطقة الغربية",
-    whatsappContact: "972500000003"
+    whatsappContact: "972500000003",
   },
   {
-    id: "5",
     type: "online",
     title: "تزكية النفوس وتطهير القلوب",
     sheikh: "د. حسين وليد",
@@ -107,10 +64,9 @@ export const MOCK_LESSONS: Lesson[] = [
     description: "قراءة في كتاب مدارج السالكين والتوجيهات الربانية لإصلاح القلب.",
     platform: "Zoom",
     link: "https://zoom.us/j/123456789",
-    whatsappContact: "972500000004"
+    whatsappContact: "972500000004",
   },
   {
-    id: "6",
     type: "online",
     title: "دورة أساسيات التجويد",
     sheikh: "الشيخ محمد وتد",
@@ -120,10 +76,9 @@ export const MOCK_LESSONS: Lesson[] = [
     description: "دورة عملية في أحكام التلاوة والتجويد برواية حفص عن عاصم.",
     platform: "YouTube Live",
     link: "https://youtube.com/channel/example",
-    whatsappContact: "972500000005"
+    whatsappContact: "972500000005",
   },
   {
-    id: "7",
     type: "online",
     title: "فقه الأسرة المسلمة",
     sheikh: "د. أحمد جابر",
@@ -133,10 +88,9 @@ export const MOCK_LESSONS: Lesson[] = [
     description: "أحكام الزواج والطلاق والتربية في الإسلام.",
     platform: "تيليغرام",
     link: "https://t.me/example",
-    whatsappContact: "972500000006"
+    whatsappContact: "972500000006",
   },
   {
-    id: "8",
     type: "online",
     title: "تأملات في قصص الأنبياء",
     sheikh: "الشيخ عبد الله عياش",
@@ -146,6 +100,25 @@ export const MOCK_LESSONS: Lesson[] = [
     description: "دروس مستفادة من سير الأنبياء والمرسلين في القرآن الكريم.",
     platform: "واتساب",
     link: "https://chat.whatsapp.com/example",
-    whatsappContact: "972500000007"
-  }
+    whatsappContact: "972500000007",
+  },
 ];
+
+async function seed() {
+  console.log("Seeding database...");
+
+  const existing = await db.select().from(lessons);
+  if (existing.length > 0) {
+    console.log(`Database already has ${existing.length} lessons, skipping seed.`);
+    process.exit(0);
+  }
+
+  await db.insert(lessons).values(SEED_LESSONS);
+  console.log(`Seeded ${SEED_LESSONS.length} lessons successfully!`);
+  process.exit(0);
+}
+
+seed().catch((err) => {
+  console.error("Seed failed:", err);
+  process.exit(1);
+});
