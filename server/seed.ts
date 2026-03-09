@@ -1,5 +1,11 @@
-import { db } from "./db";
-import { lessons } from "@shared/schema";
+import mongoose from "mongoose";
+import { LessonModel } from "./models/Lesson";
+
+const MONGODB_URI = process.env.MONGODB_URI;
+
+if (!MONGODB_URI) {
+  throw new Error("MONGODB_URI must be set.");
+}
 
 const SEED_LESSONS = [
   {
@@ -105,16 +111,20 @@ const SEED_LESSONS = [
 ];
 
 async function seed() {
-  console.log("Seeding database...");
+  console.log("Connecting to MongoDB...");
+  await mongoose.connect(MONGODB_URI!);
+  console.log("Connected!");
 
-  const existing = await db.select().from(lessons);
-  if (existing.length > 0) {
-    console.log(`Database already has ${existing.length} lessons, skipping seed.`);
+  const existing = await LessonModel.countDocuments();
+  if (existing > 0) {
+    console.log(`Database already has ${existing} lessons, skipping seed.`);
+    await mongoose.disconnect();
     process.exit(0);
   }
 
-  await db.insert(lessons).values(SEED_LESSONS);
+  await LessonModel.insertMany(SEED_LESSONS);
   console.log(`Seeded ${SEED_LESSONS.length} lessons successfully!`);
+  await mongoose.disconnect();
   process.exit(0);
 }
 

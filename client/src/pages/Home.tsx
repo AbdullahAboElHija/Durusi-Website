@@ -154,8 +154,8 @@ export default function Home() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {featuredLessons.map(lesson => (
-              <Link key={lesson.id} href={`/lesson/${lesson.id}`}>
-                <Card className="h-full hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-border/60 bg-card group cursor-pointer overflow-hidden flex flex-col" data-testid={`card-lesson-${lesson.id}`}>
+              <Link key={lesson._id} href={`/lesson/${lesson._id}`}>
+                <Card className="h-full hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-border/60 bg-card group cursor-pointer overflow-hidden flex flex-col" data-testid={`card-lesson-${lesson._id}`}>
                   <CardContent className="p-5 flex flex-col flex-grow">
                     <div className="flex justify-between items-start mb-4">
                       <Badge variant="outline" className="bg-muted text-muted-foreground font-semibold px-2 py-0.5 border-none">

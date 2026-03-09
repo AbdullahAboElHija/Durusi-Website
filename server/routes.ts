@@ -36,10 +36,7 @@ export async function registerRoutes(
 
   app.get("/api/lessons/:id", async (req, res) => {
     try {
-      const id = parseInt(req.params.id);
-      if (isNaN(id)) {
-        return res.status(400).json({ message: "معرف غير صالح" });
-      }
+      const id = req.params.id;
       const lesson = await storage.getLesson(id);
       if (!lesson) {
         return res.status(404).json({ message: "الدرس غير موجود" });

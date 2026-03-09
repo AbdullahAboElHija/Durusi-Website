@@ -200,8 +200,8 @@ export default function Browse() {
           ) : filteredLessons.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
               {filteredLessons.map(lesson => (
-                <Link key={lesson.id} href={`/lesson/${lesson.id}`}>
-                  <Card className="h-full hover:shadow-lg transition-all duration-200 border-border/60 bg-card group cursor-pointer flex flex-col" data-testid={`card-lesson-${lesson.id}`}>
+                <Link key={lesson._id} href={`/lesson/${lesson._id}`}>
+                  <Card className="h-full hover:shadow-lg transition-all duration-200 border-border/60 bg-card group cursor-pointer flex flex-col" data-testid={`card-lesson-${lesson._id}`}>
                     <CardContent className="p-5 flex flex-col flex-grow">
                       <div className="flex justify-between items-start mb-4 gap-2">
                         <Badge variant="outline" className="bg-muted/50 text-muted-foreground font-semibold px-2 py-0.5 border-none shrink-0">

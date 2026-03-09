@@ -1,30 +1,38 @@
-import { sql } from "drizzle-orm";
-import { pgTable, text, varchar, integer, timestamp } from "drizzle-orm/pg-core";
-import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
-export const lessons = pgTable("lessons", {
-  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
-  type: text("type").notNull(), // 'mosque' | 'online'
-  title: text("title").notNull(),
-  sheikh: text("sheikh").notNull(),
-  topic: text("topic").notNull(),
-  day: text("day").notNull(),
-  time: text("time").notNull(),
-  description: text("description"),
-  whatsappContact: text("whatsapp_contact"),
-  mosqueName: text("mosque_name"),
-  city: text("city"),
-  address: text("address"),
-  platform: text("platform"),
-  link: text("link"),
-  createdAt: timestamp("created_at").defaultNow(),
-});
-
-export const insertLessonSchema = createInsertSchema(lessons).omit({
-  id: true,
-  createdAt: true,
+export const insertLessonSchema = z.object({
+  type: z.enum(["mosque", "online"]),
+  title: z.string().min(1),
+  sheikh: z.string().min(1),
+  topic: z.string().min(1),
+  day: z.string().min(1),
+  time: z.string().min(1),
+  description: z.string().nullable().optional(),
+  whatsappContact: z.string().nullable().optional(),
+  mosqueName: z.string().nullable().optional(),
+  city: z.string().nullable().optional(),
+  address: z.string().nullable().optional(),
+  platform: z.string().nullable().optional(),
+  link: z.string().nullable().optional(),
 });
 
 export type InsertLesson = z.infer<typeof insertLessonSchema>;
-export type Lesson = typeof lessons.$inferSelect;
+
+export interface Lesson {
+  _id: string;
+  type: string;
+  title: string;
+  sheikh: string;
+  topic: string;
+  day: string;
+  time: string;
+  description: string | null;
+  whatsappContact: string | null;
+  mosqueName: string | null;
+  city: string | null;
+  address: string | null;
+  platform: string | null;
+  link: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
