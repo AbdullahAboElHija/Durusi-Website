@@ -1,0 +1,74 @@
+Build a full Arabic RTL frontend website called "دروسي" (Durusi) — a platform for finding Islamic religious lessons in Palestinian Arab communities inside Israel.
+Tech Stack: React + Tailwind CSS + React Router
+Design Requirements:
+
+Full RTL (right-to-left) layout, Arabic typography (use Google Font: Cairo)
+Color palette: Deep green (#1B4332), gold (#D4A017), warm white (#FAFAF7), soft gray (#F3F4F6)
+Mobile-first, responsive design
+Clean, modern Islamic aesthetic — subtle geometric patterns as decorative accents (CSS only, no images)
+
+
+Pages & Components to build:
+1. Homepage (الرئيسية)
+
+Hero section with search bar: "ابحث عن درس قريب منك..." with lesson type toggle: أونلاين / في المسجد, city dropdown (only shown if "في المسجد" is selected), and topic filter
+Featured upcoming lessons cards (3–4 cards), each showing a badge: 🟢 أونلاين or 🕌 في المسجد
+Quick stats bar: number of lessons, mosques, cities, online lessons
+CTA section: "هل أنت إمام أو مركز إسلامي؟ أضف جدول دروسك"
+
+2. Browse Lessons Page (تصفح الدروس)
+
+Filter sidebar:
+
+نوع الدرس: أونلاين / في المسجد / الكل
+المدينة (only active when "في المسجد" is selected): full dropdown list of Arab cities/towns inside Israel — see full list below
+الموضوع: فقه / تفسير / سيرة / حديث / تزكية / تجويد
+اليوم: Saturday–Friday
+الوقت: صباح / مساء / بعد الصلاة
+
+
+Lesson cards showing: title, sheikh, topic badge, type badge (أونلاين or في المسجد + city), day + time
+If online: show platform icon (Zoom / YouTube / واتساب)
+Map placeholder section — only visible when "في المسجد" filter is active
+
+3. Lesson Detail Page (تفاصيل الدرس)
+For في المسجد lessons:
+
+Mosque name, city (from approved list), full address, Google Maps embed placeholder
+Weekly schedule, sheikh name, topic, description
+
+For أونلاين lessons:
+
+Platform (Zoom / YouTube Live / واتساب / تيليغرام / غيره)
+Link or channel name
+Schedule (day + time)
+Sheikh name, topic, description
+
+Both types: "أضف للتذكير" button, Share button, WhatsApp contact button
+4. Add Lesson Page (أضف درساً)
+Step 1 — Choose lesson type with two large styled toggle cards:
+
+🕌 درس في المسجد
+💻 درس أونلاين
+
+If في المسجد selected, show:
+
+Mosque name, city (dropdown — Arab towns inside Israel only — full list below), address, sheikh name, lesson title, topic, day(s), time, description, WhatsApp contact
+
+If أونلاين selected, show:
+
+Sheikh name / page name, lesson title, topic, platform (dropdown: Zoom, YouTube, واتساب, تيليغرام, أخرى), link or channel, day(s), time, description, WhatsApp or contact link
+
+Both: styled Arabic form, validation, success confirmation message
+5. About Page (عن التطبيق)
+
+Mission statement focused on serving Arab Palestinian communities inside Israel
+How it works (3 steps)
+
+
+Full list of Arab towns/cities inside Israel (الداخل الفلسطيني) for the city dropdown:
+الناصرة، أم الفحم، باقة الغربية، الطيبة، كفر قاسم، كفر كنا، سخنين، عرابة، دير حنا، شفاعمرو، الطيرة، قلنسوة، يافا (تل أبيب)، حيفا، عكا، اللد، الرملة، المثلث (منطقة)، تل السبع، رهط، لقية، حورة، عرعرة النقب، كفر مندا، مجد الكروم، ترشيحا، جديدة-مكر، نحف، البعنة، دالية الكرمل، عسفيا، أم البطم، صندلة، مصمص، الطيبة (المثلث)، بيت جن، ريحانية، جسر الزرقاء، فريديس، أم الغنم، ابطن، كابول، كفر ياسيف، عيلبون، معلول، صفورية، المشهد، الرينة، إكسال، دبورية، طمرة، شبلي–أم الغنم، صالحة، الجش، بقيعة، حرفيش، مزرعة، يركا، كفر برا، ألام
+
+Sample Mock Data: Hardcode 8 realistic mock lessons — 4 mosque-based (across Nazareth, Umm al-Fahm, Sakhnin, Tayibe) and 4 online (YouTube, Zoom, Telegram) — with realistic sheikh names, topics, and schedules.
+Navigation: Sticky RTL navbar with logo "دروسي", links, and green "أضف درسك" CTA button.
+Footer: Links + tagline "خدمة عرب الداخل الفلسطيني 🇵🇸"
