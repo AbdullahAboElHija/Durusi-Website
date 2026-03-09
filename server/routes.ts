@@ -3,6 +3,7 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertLessonSchema } from "@shared/schema";
 import { ZodError } from "zod";
+import mongoose from "mongoose";
 
 export async function registerRoutes(
   httpServer: Server,
@@ -37,6 +38,9 @@ export async function registerRoutes(
   app.get("/api/lessons/:id", async (req, res) => {
     try {
       const id = req.params.id;
+      if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({ message: "معرف غير صالح" });
+      }
       const lesson = await storage.getLesson(id);
       if (!lesson) {
         return res.status(404).json({ message: "الدرس غير موجود" });

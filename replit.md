@@ -6,7 +6,7 @@ A platform for finding Islamic religious lessons in Palestinian Arab communities
 
 - **Frontend**: React + TypeScript + Tailwind CSS + wouter (routing)
 - **Backend**: Express.js + TypeScript
-- **Database**: PostgreSQL with Drizzle ORM
+- **Database**: MongoDB Atlas with Mongoose ODM
 - **Styling**: RTL layout, Cairo font, deep green/gold/warm white color palette
 
 ## Structure
@@ -20,26 +20,33 @@ client/src/
   data/         - constants (cities, topics, platforms)
   
 server/
-  index.ts      - Express server setup
+  index.ts      - Express server setup (connects to MongoDB on start)
   routes.ts     - API routes (/api/lessons, /api/lessons/stats, /api/lessons/:id)
-  storage.ts    - Database storage interface (CRUD)
-  db.ts         - Drizzle database connection
+  storage.ts    - MongoDB storage interface (CRUD via Mongoose)
+  db.ts         - Mongoose connection using MONGODB_URI
   seed.ts       - Seed script for initial data
+  models/
+    Lesson.ts   - Mongoose schema/model for lessons
 
 shared/
-  schema.ts     - Drizzle schema (lessons table)
+  schema.ts     - Zod validation schemas and TypeScript types
 ```
+
+## Environment Variables
+
+- `MONGODB_URI` - MongoDB Atlas connection string
 
 ## API Routes
 
 - `GET /api/lessons` - List lessons (optional query: type, city, topic, search)
 - `GET /api/lessons/stats` - Get lesson/city/online counts
-- `GET /api/lessons/:id` - Get single lesson
+- `GET /api/lessons/:id` - Get single lesson by MongoDB ObjectId
 - `POST /api/lessons` - Create a lesson
 
-## Database Schema
+## Database
 
-- `lessons` table with fields: id (serial), type, title, sheikh, topic, day, time, description, whatsappContact, mosqueName, city, address, platform, link, createdAt
+MongoDB collection: `lessons`
+Fields: _id (ObjectId), type, title, sheikh, topic, day, time, description, whatsappContact, mosqueName, city, address, platform, link, createdAt, updatedAt
 
 ## Key Features
 
