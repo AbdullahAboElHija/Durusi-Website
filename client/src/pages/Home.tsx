@@ -43,7 +43,7 @@ export default function Home() {
         
         <div className="container mx-auto max-w-4xl text-center">
           <Badge className="bg-secondary/20 text-secondary-foreground hover:bg-secondary/30 mb-6 px-4 py-1.5 rounded-full text-sm font-semibold border-secondary/20 transition-colors">
-            منصة الدروس الدينية في الداخل الفلسطيني
+            منصة الدروس الدينية للمواطنين المسلمين
           </Badge>
           
           <h1 className="text-4xl md:text-6xl font-black text-primary mb-6 leading-tight" data-testid="text-hero-title">
