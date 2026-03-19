@@ -9,11 +9,7 @@ export default function About() {
         <p className="text-xl text-muted-foreground max-w-2xl mx-auto">المنصة الأولى لتوثيق والبحث عن الدروس الدينية في الداخل</p>
       </div>
       <div className="prose prose-lg dark:prose-invert max-w-none text-foreground mb-16">
-        <p className="text-lg leading-relaxed text-justify bg-card p-6 rounded-2xl border border-border shadow-sm">
-          انطلقت منصة "دروسي" لتكون دليلاً شاملاً يربط طالب العلم بحلقات الذكر والدروس الدينية في مساجد ومراكز 
-          عرب الداخل الفلسطيني (مناطق 48). نؤمن بأن المساجد هي حواضن التربية، وأن تسهيل الوصول إليها هو 
-          خطوة نحو بناء مجتمع واعٍ ومتمسك بدينه.
-        </p>
+        <p className="text-lg leading-relaxed text-justify bg-card p-6 rounded-2xl border border-border shadow-sm">انطلقت منصة "دروسي" لتكون دليلاً شاملاً يربط طالب العلم بحلقات الذكر والدروس الدينية في مساجد ومراكز عرب الداخل (مناطق 48). نؤمن بأن المساجد هي حواضن التربية، وأن تسهيل الوصول إليها هو خطوة نحو بناء مجتمع واعٍ ومتمسك بدينه.</p>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
         <Card className="border-none shadow-md bg-primary/5">
