@@ -5,7 +5,6 @@ export default function Footer() {
     <footer className="bg-primary text-primary-foreground py-12 mt-auto relative overflow-hidden">
       {/* Decorative subtle pattern in footer */}
       <div className="absolute inset-0 opacity-10 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCI+PHBhdGggZD0iTTIwIDBsMjAgMjAtMjAgMjBMMCAyMHoiIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iLjA1Ii8+PC9zdmc+')]"></div>
-      
       <div className="container mx-auto px-4 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
@@ -40,9 +39,7 @@ export default function Footer() {
         
         <div className="border-t border-white/10 mt-8 pt-8 text-center flex flex-col md:flex-row justify-between items-center text-sm text-primary-foreground/60">
           <p>© {new Date().getFullYear()} دروسي. جميع الحقوق محفوظة.</p>
-          <p className="mt-2 md:mt-0 font-medium flex items-center justify-center gap-1">
-            خدمة عرب الداخل الفلسطيني 🇵🇸
-          </p>
+          <p className="mt-2 md:mt-0 font-medium flex items-center justify-center gap-1">خدمة عرب الداخل</p>
         </div>
       </div>
     </footer>
