@@ -11,9 +11,7 @@ export default function Footer() {
             <Link href="/" className="flex items-center gap-2 text-white font-bold text-2xl tracking-tight mb-4 inline-block">
               <span className="text-secondary">در</span>وسي
             </Link>
-            <p className="text-primary-foreground/80 max-w-xs text-sm leading-relaxed mb-4">
-              المنصة الأولى للبحث عن الدروس الدينية الإسلامية وحلقات العلم في مساجد ومراكز الداخل الفلسطيني، وعبر الإنترنت.
-            </p>
+            <p className="text-primary-foreground/80 max-w-xs text-sm leading-relaxed mb-4">المنصة الأولى للبحث عن الدروس الدينية الإسلامية وحلقات العلم في مساجد ومراكز الداخل، وعبر الإنترنت.</p>
           </div>
           
           <div>
