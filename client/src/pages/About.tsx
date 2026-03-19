@@ -6,11 +6,8 @@ export default function About() {
     <div className="container mx-auto px-4 py-12 max-w-4xl">
       <div className="text-center mb-12">
         <h1 className="text-4xl font-black text-primary mb-4">عن منصة دروسي</h1>
-        <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-          المنصة الأولى لتوثيق والبحث عن الدروس الدينية في الداخل الفلسطيني
-        </p>
+        <p className="text-xl text-muted-foreground max-w-2xl mx-auto">المنصة الأولى لتوثيق والبحث عن الدروس الدينية في الداخل</p>
       </div>
-
       <div className="prose prose-lg dark:prose-invert max-w-none text-foreground mb-16">
         <p className="text-lg leading-relaxed text-justify bg-card p-6 rounded-2xl border border-border shadow-sm">
           انطلقت منصة "دروسي" لتكون دليلاً شاملاً يربط طالب العلم بحلقات الذكر والدروس الدينية في مساجد ومراكز 
@@ -18,7 +15,6 @@ export default function About() {
           خطوة نحو بناء مجتمع واعٍ ومتمسك بدينه.
         </p>
       </div>
-
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
         <Card className="border-none shadow-md bg-primary/5">
           <CardContent className="p-6 text-center space-y-4">
@@ -56,7 +52,6 @@ export default function About() {
           </CardContent>
         </Card>
       </div>
-
       <div className="bg-card border border-border/60 rounded-3xl p-8 md:p-12 shadow-sm">
         <h2 className="text-2xl font-bold text-center mb-8">كيف تعمل المنصة؟</h2>
         
