@@ -33,6 +33,11 @@ export default function LessonDetail() {
     return <NotFound />;
   }
 
+  const formatArabicDate = (dateStr: string) => {
+    const date = new Date(dateStr + "T00:00:00");
+    return date.toLocaleDateString("ar-SA", { year: "numeric", month: "long", day: "numeric" });
+  };
+
   const handleShare = () => {
     if (navigator.share) {
       navigator.share({
@@ -119,6 +124,14 @@ export default function LessonDetail() {
                     {lesson.time}
                   </p>
                 </div>
+                {lesson.eventDate && (
+                  <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 flex-1 min-w-[200px]">
+                    <p className="text-sm text-amber-700 mb-1">ينتهي بتاريخ</p>
+                    <p className="font-bold text-lg text-amber-800" data-testid="text-lesson-event-date">
+                      {formatArabicDate(lesson.eventDate)}
+                    </p>
+                  </div>
+                )}
               </div>
             </section>
           </div>

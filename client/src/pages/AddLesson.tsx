@@ -28,6 +28,7 @@ export default function AddLesson() {
   const [platform, setPlatform] = useState("");
   const [link, setLink] = useState("");
   const [mapsUrl, setMapsUrl] = useState("");
+  const [eventDate, setEventDate] = useState("");
 
   const mutation = useMutation({
     mutationFn: async (data: Record<string, any>) => {
@@ -60,6 +61,7 @@ export default function AddLesson() {
       time,
       description: description || null,
       whatsappContact: whatsapp || null,
+      eventDate: eventDate || null,
     };
 
     if (lessonType === "mosque") {
@@ -266,6 +268,24 @@ export default function AddLesson() {
                 <div className="space-y-2">
                   <Label htmlFor="time">الوقت المعتاد <span className="text-destructive">*</span></Label>
                   <Input id="time" required placeholder="مثال: بعد صلاة المغرب / 20:00 مساءً" value={time} onChange={e => setTime(e.target.value)} data-testid="input-time" />
+                </div>
+
+                <div className="space-y-2 md:col-span-2">
+                  <Label htmlFor="eventDate">تاريخ انتهاء الدرس (اختياري)</Label>
+                  <Input
+                    id="eventDate"
+                    type="date"
+                    dir="ltr"
+                    className="text-left"
+                    min={new Date().toISOString().split("T")[0]}
+                    value={eventDate}
+                    onChange={e => setEventDate(e.target.value)}
+                    data-testid="input-event-date"
+                  />
+                  <p className="text-xs text-muted-foreground">
+                    إذا كان الدرس مؤقتاً أو له تاريخ محدد للانتهاء، أدخل التاريخ هنا. بعد هذا التاريخ سيُخفى الدرس تلقائياً.
+                    اتركه فارغاً إذا كان الدرس أسبوعياً مستمراً.
+                  </p>
                 </div>
               </div>
 

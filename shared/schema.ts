@@ -15,6 +15,7 @@ export const insertLessonSchema = z.object({
   platform: z.string().nullable().optional(),
   link: z.string().nullable().optional(),
   mapsUrl: z.string().nullable().optional(),
+  eventDate: z.string().nullable().optional(),
 });
 
 export type InsertLesson = z.infer<typeof insertLessonSchema>;
@@ -35,6 +36,7 @@ export interface Lesson {
   platform: string | null;
   link: string | null;
   mapsUrl: string | null;
+  eventDate: string | null;
   status: "pending" | "approved" | "rejected";
   createdAt: string;
   updatedAt: string;

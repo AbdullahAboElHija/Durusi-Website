@@ -15,6 +15,7 @@ const lessonSchema = new mongoose.Schema({
   platform: { type: String, default: null },
   link: { type: String, default: null },
   mapsUrl: { type: String, default: null },
+  eventDate: { type: Date, default: null },
   status: { type: String, required: true, enum: ["pending", "approved", "rejected"], default: "pending" },
 }, { timestamps: true });
 

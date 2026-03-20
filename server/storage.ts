@@ -5,6 +5,7 @@ function toLesson(doc: any): Lesson {
   return {
     ...doc,
     _id: doc._id.toString(),
+    eventDate: doc.eventDate ? new Date(doc.eventDate).toISOString().split("T")[0] : null,
     createdAt: doc.createdAt?.toISOString?.() ?? new Date().toISOString(),
     updatedAt: doc.updatedAt?.toISOString?.() ?? new Date().toISOString(),
   } as Lesson;
@@ -26,13 +27,19 @@ export interface IStorage {
 }
 
 export class MongoStorage implements IStorage {
+  private notExpiredFilter() {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return { $or: [{ eventDate: null }, { eventDate: { $gte: today } }] };
+  }
+
   async getLessons(filters?: {
     type?: string;
     city?: string;
     topic?: string;
     search?: string;
   }): Promise<Lesson[]> {
-    const query: Record<string, any> = { status: "approved" };
+    const query: Record<string, any> = { status: "approved", ...this.notExpiredFilter() };
 
     if (filters?.type && filters.type !== "all") {
       query.type = filters.type;
@@ -59,7 +66,11 @@ export class MongoStorage implements IStorage {
 
   async getLesson(id: string): Promise<Lesson | undefined> {
     try {
-      const doc = await LessonModel.findOne({ _id: id, status: "approved" }).lean();
+      const doc = await LessonModel.findOne({
+        _id: id,
+        status: "approved",
+        ...this.notExpiredFilter(),
+      }).lean();
       if (!doc) return undefined;
       return toLesson(doc);
     } catch {
@@ -73,9 +84,10 @@ export class MongoStorage implements IStorage {
   }
 
   async getStats(): Promise<{ lessons: number; cities: number; online: number }> {
-    const total = await LessonModel.countDocuments({ status: "approved" });
-    const cities = await LessonModel.distinct("city", { city: { $ne: null }, status: "approved" });
-    const online = await LessonModel.countDocuments({ type: "online", status: "approved" });
+    const baseFilter = { status: "approved", ...this.notExpiredFilter() };
+    const total = await LessonModel.countDocuments(baseFilter);
+    const cities = await LessonModel.distinct("city", { city: { $ne: null }, ...baseFilter });
+    const online = await LessonModel.countDocuments({ type: "online", ...baseFilter });
     return {
       lessons: total,
       cities: cities.length,
