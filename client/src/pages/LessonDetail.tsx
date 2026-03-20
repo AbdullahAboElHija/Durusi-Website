@@ -7,7 +7,7 @@ import { Separator } from "@/components/ui/separator";
 import { 
   MapPin, MonitorPlay, Calendar, Clock, 
   User, BookOpen, Share2, MessageCircle, 
-  ArrowRight, ExternalLink, BellPlus, Loader2
+  ArrowRight, ExternalLink, BellPlus, Loader2, Map
 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import NotFound from "./not-found";
@@ -137,12 +137,21 @@ export default function LessonDetail() {
                         <p className="text-sm text-muted-foreground">{lesson.address}، {lesson.city}</p>
                       </div>
                     </div>
-                    <div className="w-full h-32 bg-muted rounded-lg flex items-center justify-center border border-border mt-4">
-                      <p className="text-xs text-muted-foreground flex flex-col items-center gap-1">
-                        <MapPin className="w-6 h-6 opacity-50" />
-                        خريطة الموقع
-                      </p>
-                    </div>
+                    {lesson.mapsUrl ? (
+                      <a href={lesson.mapsUrl} target="_blank" rel="noreferrer" className="block w-full mt-2">
+                        <Button className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold" data-testid="button-google-maps">
+                          <Map className="w-4 h-4 ml-2" />
+                          افتح في Google Maps
+                        </Button>
+                      </a>
+                    ) : (
+                      <div className="w-full h-24 bg-muted rounded-lg flex items-center justify-center border border-border mt-2">
+                        <p className="text-xs text-muted-foreground flex flex-col items-center gap-1">
+                          <MapPin className="w-5 h-5 opacity-40" />
+                          لا يوجد رابط خريطة
+                        </p>
+                      </div>
+                    )}
                   </div>
                 ) : (
                   <div className="space-y-4">

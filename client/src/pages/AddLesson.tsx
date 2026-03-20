@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent } from "@/components/ui/card";
-import { MapPin, MonitorPlay, CheckCircle2, ArrowRight, Loader2 } from "lucide-react";
+import { MapPin, MonitorPlay, CheckCircle2, ArrowRight, Loader2, Map } from "lucide-react";
 import { Link } from "wouter";
 import { useMutation } from "@tanstack/react-query";
 import { queryClient } from "@/lib/queryClient";
@@ -27,6 +27,7 @@ export default function AddLesson() {
   const [address, setAddress] = useState("");
   const [platform, setPlatform] = useState("");
   const [link, setLink] = useState("");
+  const [mapsUrl, setMapsUrl] = useState("");
 
   const mutation = useMutation({
     mutationFn: async (data: Record<string, any>) => {
@@ -65,6 +66,7 @@ export default function AddLesson() {
       data.mosqueName = mosqueName;
       data.city = city;
       data.address = address || null;
+      data.mapsUrl = mapsUrl || null;
     } else {
       data.platform = platform;
       data.link = link;
@@ -200,6 +202,24 @@ export default function AddLesson() {
                     <div className="space-y-2">
                       <Label htmlFor="address">العنوان التفصيلي (اختياري)</Label>
                       <Input id="address" placeholder="اسم الحي أو الشارع" value={address} onChange={e => setAddress(e.target.value)} data-testid="input-address" />
+                    </div>
+
+                    <div className="space-y-2 md:col-span-2">
+                      <Label htmlFor="mapsUrl" className="flex items-center gap-2">
+                        <Map className="w-4 h-4 text-primary" />
+                        رابط الموقع على Google Maps (اختياري)
+                      </Label>
+                      <Input
+                        id="mapsUrl"
+                        type="url"
+                        dir="ltr"
+                        className="text-left"
+                        placeholder="https://maps.google.com/..."
+                        value={mapsUrl}
+                        onChange={e => setMapsUrl(e.target.value)}
+                        data-testid="input-maps-url"
+                      />
+                      <p className="text-xs text-muted-foreground">افتح Google Maps، ابحث عن المسجد، ثم انسخ الرابط من شريط العنوان</p>
                     </div>
                   </>
                 ) : (
